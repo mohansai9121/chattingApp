@@ -1,28 +1,43 @@
 import React from "react";
 import "../App.css";
 import { IconButton } from "rsuite";
+import { FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { auth } from "../misc/firebase";
-import firebase from "firebase/compat/app";
 import { signInWithPopup } from "firebase/auth";
-//import { app } from "../misc/firebase";
+import { database } from "../misc/firebase";
+import toast from "react-hot-toast";
+import { set, push, ref } from "firebase/database";
 
 const SignIn = () => {
   const signInWithProvider = async (provider) => {
     try {
       const result = await signInWithPopup(auth, provider);
+      if (result) {
+        const newRef = push(ref(database, `profile/${result.user.uid}`));
+        set(newRef, {
+          name: result.user.displayName,
+          CreatedAt: result.user.metadata.creationTime,
+          Email: result.user.email,
+        });
+      }
       console.log(result);
+      toast.success("Signing in...!", {
+        duration: 4000,
+        position: "top-center",
+      });
     } catch (error) {
-      console.log(error.message());
+      console.log(error.message);
+      toast.error(error.message, { duration: 4000, position: "top-center" });
     }
   };
 
   const facebookSignIn = async () => {
-    await signInWithProvider(new firebase.auth.FacebookAuthProvider());
+    await signInWithProvider(new FacebookAuthProvider());
   };
 
   const GoogleSignIn = async () => {
-    await signInWithProvider(new firebase.auth.GoogleAuthProvider());
+    await signInWithProvider(new GoogleAuthProvider());
   };
 
   return (

@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { AuthCredential } from "firebase/auth";
+//import "firebase/database";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -15,4 +17,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = new AuthCredential(app);
+export const auth = getAuth(app);
+export const database = getDatabase(
+  app,
+  "https://chatting-app-b3b1e-default-rtdb.asia-southeast1.firebasedatabase.app/"
+);
