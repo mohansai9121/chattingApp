@@ -2,6 +2,7 @@ import React from "react";
 import { useProfile } from "../context/profile.context";
 import { Col, Container, Grid, Loader, Row } from "rsuite";
 import Sidebar from "../components/Sidebar";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { isLoading, profile } = useProfile();
@@ -19,9 +20,23 @@ const Home = () => {
           </Grid>
         </div>
       ) : (
-        <Container>
-          <Loader center vertical size="md" content="loading" speed="slow" />
-        </Container>
+        <>
+          {isLoading ? (
+            <Container>
+              <Loader
+                center
+                speed="slow"
+                vertical
+                content="Loading..."
+                size="md"
+              />
+            </Container>
+          ) : (
+            <>
+              <Link to="signIn"> SignIn Page </Link>
+            </>
+          )}
+        </>
       )}
     </div>
   );
