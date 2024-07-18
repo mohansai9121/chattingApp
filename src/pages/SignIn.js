@@ -7,18 +7,19 @@ import { auth } from "../misc/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { database } from "../misc/firebase";
 import toast from "react-hot-toast";
-import { set, push, ref } from "firebase/database";
+import { set, ref } from "firebase/database";
 
 const SignIn = () => {
   const signInWithProvider = async (provider) => {
     try {
       const result = await signInWithPopup(auth, provider);
       if (result) {
-        const newRef = push(ref(database, `profile/${result.user.uid}`));
+        const newRef = ref(database, `profile/${result.user.uid}`);
         set(newRef, {
           name: result.user.displayName,
           CreatedAt: result.user.metadata.creationTime,
           Email: result.user.email,
+          recentLogin: result.user.metadata.lastSignInTime,
         });
       }
       console.log(result);
