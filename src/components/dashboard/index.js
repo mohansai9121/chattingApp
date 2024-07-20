@@ -4,6 +4,7 @@ import { useProfile } from "../../context/profile.context";
 import EditableInput from "../EditableInput";
 import { ref, set } from "firebase/database";
 import { database } from "../../misc/firebase";
+import AvatarUpload from "./AvatarUpload";
 
 const DashBoard = ({ signedOut }) => {
   const { profile } = useProfile();
@@ -20,6 +21,7 @@ const DashBoard = ({ signedOut }) => {
       console.log(err.message);
     }
   };
+  console.log(nickname);
 
   return (
     <>
@@ -32,9 +34,12 @@ const DashBoard = ({ signedOut }) => {
         <EditableInput
           name="NiceName"
           onSave={onSave}
-          initialValue={nickname}
+          initialValue={profile.nickName}
           label={<h6>Nice Name</h6>}
         />
+        <br />
+        <AvatarUpload />
+        <br />
         <Button block appearance="primary" color="red" onClick={signedOut}>
           Sign Out
         </Button>

@@ -16,16 +16,21 @@ export const ProfileProvider = ({ children }) => {
         newRef = ref(database, `profile/${authObj.uid}`);
         onValue(newRef, (snap) => {
           console.log("snapValue:", snap.val());
-          const { CreatedAt, Email, name, recentLogin } = snap.val();
-          let userData = {
-            uid: authObj.uid,
-            lastLogin: recentLogin,
-            name: name,
-            email: Email,
-            createdAt: CreatedAt,
-          };
-          setProfile(userData);
-          setIsLoading(false);
+          if (snap.val) {
+            const { CreatedAt, Email, name, recentLogin, nickName, avatar } =
+              snap.val();
+            let userData = {
+              uid: authObj.uid,
+              lastLogin: recentLogin,
+              name: name,
+              nickName: nickName,
+              email: Email,
+              createdAt: CreatedAt,
+              avatar: avatar,
+            };
+            setProfile(userData);
+            setIsLoading(false);
+          }
         });
       } else {
         if (newRef) {

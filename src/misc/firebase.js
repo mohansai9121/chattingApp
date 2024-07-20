@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 //import "firebase/database";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,3 +23,4 @@ export const database = getDatabase(
   app,
   "https://chatting-app-b3b1e-default-rtdb.asia-southeast1.firebasedatabase.app/"
 );
+export const storage = getStorage(app, "gs://chatting-app-b3b1e.appspot.com");
