@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Avatar, Button, Modal } from "rsuite";
 import AvatarEditor from "react-avatar-editor";
 import { useModalState } from "../../misc/customHooks";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../misc/firebase";
 import { useProfile } from "../../context/profile.context";
-import { useURLToDataBase } from "../../misc/urlUpload";
+import { URLToDataBase } from "../../misc/urlUpload";
 //import { set } from "firebase/database";
 
 const fileAcceptTypes = ".png, .jpg, .jpeg, .HEIC, .svg";
@@ -51,13 +51,8 @@ const AvatarUpload = () => {
     close();
   };
 
-  useEffect(() => {
-    if (!imageURL) {
-      setImageURL(profile.avatar);
-    }
-  }, [imageURL, profile.avatar]);
+  URLToDataBase(imageURL);
 
-  useURLToDataBase(imageURL);
   const fileChange = (ev) => {
     let image1 = ev.target.files[0];
     setImage(image1);
@@ -69,7 +64,7 @@ const AvatarUpload = () => {
       <center>
         <div>
           {profile.avatar ? (
-            <img src={profile.avatar} alt={profile.nickName} />
+            <img src={profile.avatar} alt={profile.name} />
           ) : (
             <Avatar style={{ background: "#000" }} circle size="xxl">
               {profile.name[0]}
